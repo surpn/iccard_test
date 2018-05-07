@@ -29,36 +29,31 @@ class Config(object):
 		cf.read(file_path, encoding='UTF-8')
 		return cf
 
-	def mysqldb(self):
-		cf = self.get_ini("db.ini")
-		items = cf.items("mysqlconf")
+	def item(self, ini_filename, item):
+		items = self.get_ini(ini_filename).items(item)
 		cfg = {}
 		for item in items:
 			cfg[item[0]] = item[1]
+		return cfg
+
+	def mysqldb(self):
+		cfg = self.item("db.ini", "mysqlconf")
 		return cfg
 
 	def url(self):
-		cf = self.get_ini("url.ini")
-		items = cf.items("urls")
-		cfg = {}
-		for item in items:
-			cfg[item[0]] = item[1]
+		cfg = self.item("url.ini", "urls")
 		return cfg
 
 	def email(self):
-		cf = self.get_ini("email.ini")
-		items = cf.items("email")
-		cfg = {}
-		for item in items:
-			cfg[item[0]] = item[1]
+		cfg = self.item("email.ini", "email")
 		return cfg
 
 	def logging(self):
-		cf = self.get_ini("logging.ini")
-		items = cf.items("logging")
-		cfg = {}
-		for item in items:
-			cfg[item[0]] = item[1]
+		cfg = self.item("logging.ini", "logging")
+		return cfg
+
+	def testcase(self):
+		cfg = self.item("testcase.ini", "testcase")
 		return cfg
 
 
