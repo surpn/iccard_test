@@ -31,19 +31,40 @@ class Case(object):
 		self.rows = self.table.nrows
 		self.cols = self.table.ncols
 		self.log.debug("%s 有 %d 行, %d 列" % (self.table.name, self.table.nrows, self.table.ncols))
-		sleep(1)
+		# sleep(1)
+
 		cases = []
+		case = {}
+		casetitle = {}
+		x = 0
+		while x < self.rows:
+			s = self.table.cell(x, 0).ctype
+			# 1字符,2数字
+			if s == 1 and self.table.cell(x, 0).value == "用例编号":
+				# self.log.debug(casetitle)
+				cases.append({"title": casetitle, "case": 1})
 
-		for row in range(self.rows):
-			s = self.table.cell(row, 0).ctype
+			# 读取测试用例题头
+			if s == 10 and self.table.cell(x, 0).value != "用例编号":
+				i = 0
+				r = self.table.row_slice(x)
+				while i < len(r):
+					try:
+						if r[i].value != "":
+							casetitle[r[i].value] = r[i+1].value
+							i += 2
+						else:
+							break
+					except IndexError:
+						break
 
+			# 读取测试用例
 			if s == 2:
-				case = {}
-				for col in range(self.cols):
-					case[self.case_title[col]] = self.table.cell(row, col).value
-				print("-"*80)
-				pprint(case)
-				cases.append(case)
+				for c in range(self.cols):
+					case[self.case_title[c]] = self.table.cell(x, c).value
+			# self.log.debug(case)
+			x += 1
+			sleep(0.1)
 		self.log.debug(cases)
 
 
