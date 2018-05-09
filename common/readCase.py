@@ -1,6 +1,5 @@
 # _*_coding:utf-8_*_
 from pprint import pprint
-from time import sleep
 
 import xlrd
 
@@ -33,21 +32,20 @@ class Case(object):
 		self.log.debug("%s 有 %d 行, %d 列" % (self.table.name, self.table.nrows, self.table.ncols))
 		# sleep(1)
 
+		suits = []
 		cases = []
-		case = {}
+		suit = {}
 		casetitle = {}
+		case = {}
 		x = 0
 		while x < self.rows:
-			s = self.table.cell(x, 0).ctype
+			x += 1
+			s = self.table.cell(x-1, 0).ctype
 			# 1字符,2数字
-			if s == 1 and self.table.cell(x, 0).value == "用例编号":
-				# self.log.debug(casetitle)
-				cases.append({"title": casetitle, "case": 1})
-
 			# 读取测试用例题头
-			if s == 10 and self.table.cell(x, 0).value != "用例编号":
+			if s == 1 and self.table.cell(x-1, 0).value != "用例编号":
 				i = 0
-				r = self.table.row_slice(x)
+				r = self.table.row_slice(x-1)
 				while i < len(r):
 					try:
 						if r[i].value != "":
@@ -58,15 +56,56 @@ class Case(object):
 					except IndexError:
 						break
 
+			# 用例头
+			if s == 1 and self.table.cell(x-1, 0).value == "用例编号":
+				# casetitle集合
+				# self.log.debug(casetitle)
+
+				suit["casetitle"] = casetitle
+				casetitle = {}
+				self.log.debug("用例编号")
+				continue
+
 			# 读取测试用例
 			if s == 2:
+				case = {}
 				for c in range(self.cols):
-					case[self.case_title[c]] = self.table.cell(x, c).value
-			# self.log.debug(case)
-			x += 1
-			sleep(0.1)
-		self.log.debug(cases)
+					case[self.case_title[c]] = self.table.cell(x-1, c).value
+				cases.append(case)
+
+			if s == 1 and self.table.cell(x-1, 0).value == "编制人":
+				if case != {}:
+					# 测试用例
+					# self.log.debug(cases)
+					suit["cases"] = cases
+					cases = []
+					self.log.debug("-"*100)
+					# self.log.debug(suit["casetitle"])
+					# self.log.debug(suit["cases"])
+					self.log.debug(suit)
+					self.log.debug("-"*100)
+					suits.append(suit)
+					suit = {}
+					self.log.debug("编制人")
+
+			if x == self.rows:
+				suit["cases"] = cases
+				cases = []
+				self.log.debug(suit["casetitle"])
+				self.log.debug(suit["cases"])
+				suits.append(suit)
+				self.log.debug(x)
+				cases = []
+				suit = {}
+				casetitle = {}
+				case = {}
+			# sleep(0.001)
+		return suits
 
 
 if __name__ == "__main__":
-	Case().import_list()
+	suits = Case().import_list()
+	# for suit in suits:
+	# 	pprint("-"*80)
+	# 	pprint(suit)
+	pprint(suits)
