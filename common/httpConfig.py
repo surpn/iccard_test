@@ -1,6 +1,8 @@
 # _*_coding:utf-8_*_
 import requests
 
+from common.readConfig import Config
+
 
 class Http(object):
 
@@ -23,11 +25,13 @@ class Http(object):
 
 
 if __name__ == "__main__":
-	h = Http(url="http://localhost:9090/iccard")
+	cf = Config().url()
+	print(cf)
+	test_url = cf["test"]
+	h = Http(url=test_url)
 
 	h.post("/InitSystem")
 
-	url = "http://localhost:9090/iccard/ICCardCheckIn"
 	json = {"cardNo": "1001"}
 	r = h.post("/ICCardCheckIn", json=json)
 
