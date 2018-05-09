@@ -8,9 +8,8 @@ class SelectOperation(BaseTest):
 
 	def setUp(self):
 		super().setUp()
-		method = "/ICCardCheckIn"
-		self.url = self.test_url + method
-		self.log.info(self.url)
+		self.method = "/ICCardCheckIn"
+		self.log.info(self.method)
 
 	def test_SelectOperation01(self):
 		pass
