@@ -9,16 +9,16 @@ class TestICCardCheckIn(BaseTest):
 
 	def setUp(self):
 		super().setUp()
-		method = "/ICCardCheckIn"
-		self.url = self.test_url + method
-		self.log.info(self.url)
+		self.s.post("/InitSystem")
+		self.method = "/ICCardCheckIn"
+		self.log.info(self.method)
 
 	def test_ICCardCheckIn01(self):
 		"""输入{"cardNo":1001}"""
 		json = {
 			"cardNo": 1001
 		}
-		r = self.s.post(url=self.url, json=json)
+		r = self.s.post(self.method, json=json)
 		self.log.info(r.text)
 		self.assertEqual(u'{"expectResult":"0","expectSysMessage":"插卡成功！"}', r.text, "123")
 
@@ -27,7 +27,7 @@ class TestICCardCheckIn(BaseTest):
 		json = {
 			"cardNo": 1000
 		}
-		r = self.s.post(url=self.url, json=json)
+		r = self.s.post(self.method, json=json)
 		self.log.info(r.text)
 		self.assertEqual(u'{"expectResult":"1","expectSysMessage":"卡号不存在！"}', r.text, "123")
 
@@ -36,7 +36,7 @@ class TestICCardCheckIn(BaseTest):
 		json = {
 			"cardNo": "100*"
 		}
-		r = self.s.post(url=self.url, json=json)
+		r = self.s.post(self.method, json=json)
 		self.log.info(r.text)
 		self.assertEqual(u'{"expectResult":"1","expectSysMessage":"卡号不存在！"}', r.text, "123")
 
@@ -45,7 +45,7 @@ class TestICCardCheckIn(BaseTest):
 		json = {
 			"cardNo": ""
 		}
-		r = self.s.post(url=self.url, json=json)
+		r = self.s.post(self.method, json=json)
 		self.log.info(r.text)
 		self.assertEqual(u'{"expectResult":"1","expectSysMessage":"卡号不存在！"}', r.text, "123")
 
@@ -54,7 +54,7 @@ class TestICCardCheckIn(BaseTest):
 		json = {
 			"cardNo": ""
 		}
-		r = self.s.post(url=self.url, json=json)
+		r = self.s.post(self.method, json=json)
 		self.log.info(r.text)
 		self.assertEqual(u'{"expectResult":"1","expectSysMessage":"卡号不存在！"}', r.text, "123")
 

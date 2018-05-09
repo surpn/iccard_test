@@ -2,6 +2,7 @@ import unittest
 
 import requests
 
+from common.httpConfig import Http
 from common.log import Log
 from common.readConfig import Config
 
@@ -15,12 +16,7 @@ class BaseTest(unittest.TestCase):
 		self.log.info('-'*25 + u"test setUp" + '-'*25)
 		cfg = Config().url()
 		self.test_url = cfg["test"]
-
-		self.s = requests.session()
-
-		r = self.s.post("http://localhost:9090/iccard/InitSystem")
-
-		self.log.info(r.text)
+		self.s = Http(self.test_url)
 
 	def tearDown(self):
 		self.s.close()
