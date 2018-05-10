@@ -17,6 +17,8 @@ class Logging(object):
 	__log_path = current_path(__dir)
 	__handler = __config["handler"]
 	__console = __config["console"]
+	__handler_name = __config["handler_level"]
+	__console_name = __config["console_level"]
 	_nameToLevel = {
 		'CRITICAL': logging.CRITICAL,
 		'FATAL': logging.FATAL,
@@ -27,8 +29,8 @@ class Logging(object):
 		'DEBUG': logging.DEBUG,
 		'NOTSET': logging.NOTSET,
 	}
-	__handler_level = _nameToLevel[__config["handler_level"]]
-	__console_level = _nameToLevel[__config["console_level"]]
+	__handler_level = _nameToLevel[__handler_name]
+	__console_level = _nameToLevel[__console_name]
 	__logger = None
 
 	def __init__(self):
@@ -40,30 +42,43 @@ class Logging(object):
 		self.__logger = logging.getLogger(__name__)
 		self.__logger.setLevel(logging.DEBUG)
 
-		# 设置log输出日志 级别.路径.格式化
+		# 设置log文件输出 级别.路径.格式化
 		if self.__handler == "1":
-			handler = logging.FileHandler(filename=self.__log_path + timestamp() + ".log", encoding='utf-8')
+			# 创建,路径
+			handler = logging.FileHandler(
+				filename=self.__log_path + timestamp() + "--"
+				+ self.__handler_name + ".log", encoding='utf-8')
+			# 级别
 			handler.setLevel(self.__handler_level)
+			# 格式化
 			formatter = logging.Formatter(self.__output_format)
 			handler.setFormatter(formatter)
+			# 添加
 			self.__logger.addHandler(handler)
 
-		# 设置控制台日志 级别.路径.格式化
+		# 设置控制台日志 级别格式化
 		if self.__console == "1":
+			# 创建
 			console = logging.StreamHandler()
+			# 级别
 			console.setLevel(self.__console_level)
+			# 添加
 			self.__logger.addHandler(console)
 
 	def debug(self, msg, *args, **kwargs):
+		"""debug级别日志"""
 		self.__logger.debug(msg, *args, **kwargs)
 
 	def info(self, msg, *args, **kwargs):
+		"""info级别日志"""
 		self.__logger.info(msg, *args, **kwargs)
 
 	def warning(self, msg, *args, **kwargs):
+		"""warning级别日志"""
 		self.__logger.warning(msg, *args, **kwargs)
 
 	def error(self, msg, *args, **kwargs):
+		"""error级别日志"""
 		self.__logger.error(msg, *args, **kwargs)
 
 	def get_logger(self):
@@ -73,48 +88,18 @@ class Logging(object):
 		"""
 		return self.__logger
 
-	def build_start_line(self, case_no):
-		"""
-		write start line
-		:return:
-		"""
-		self.__logger.info("--------" + case_no + " START--------")
-
-	def build_end_line(self, case_no):
-		"""
-		write end line
-		:return:
-		"""
-		self.__logger.info("--------" + case_no + " END--------")
-
-	def build_case_line(self, case_name, **json):
-		"""
-		write test case line
-		:param case_name:
-		:param code:
-		:param msg:
-		:return:
-		"""
-		self.__logger.info(case_name + " - json:" + str(json))
-
-	def get_report_path(self):
-		"""
-		get report file path
-		:return:
-		"""
-		# report_path = os.path.join(self.log_file_path, "report.html")
-		return self.__log_path
-
 
 class Log(object):
+	"""单例"""
 	__log = None
 	__mutex = threading.Lock()
 
 	def __init__(self):
-		if self.__log is None:
-			self.__mutex.acquire()
+		if Log.__log is None:
+			# print("log")
+			Log.__mutex.acquire()
 			Log.__log = Logging()
-			self.__mutex.release()
+			Log.__mutex.release()
 
 	@staticmethod
 	def log():
@@ -127,4 +112,5 @@ if __name__ == '__main__':
 	log.info("info")
 	log.warning("warning")
 	log.error("error")
-	print(log.get_logger())
+	log.get_logger().warn("123")
+	# print(log.get_logger())

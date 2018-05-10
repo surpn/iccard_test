@@ -31,8 +31,6 @@ def current_path(dpath=r"", mkdir=False):
 
 def timestamp(format_str=""):
 	"""时间戳"""
-	time_stamp = ""
-
 	if format_str == "":
 		time_stamp = time.strftime("%Y%m%d%H%M%S")
 	else:
@@ -77,7 +75,7 @@ def random_chinese_characters(i=1):
 			s = s + a
 			j -= 1
 			if j == 0:
-				a = xeger.xeger(u"[\\u4e00-\\u9fa5]{}".format("{"+str(k)+"}"))
+				a = xeger.xeger(u"[\\u4e00-\\u9fa5]{}".format("{" + str(k) + "}"))
 				s = s + a
 	return s
 

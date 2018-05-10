@@ -9,29 +9,39 @@ from common.utils import current_path
 
 
 class Case(object):
-
+	"""
+	xlsx文件测试用例读取
+	"""
 	def __init__(self):
 		self.log = Log().log()
+		# 初始化配置文件,
 		cfg = Config().testcase()
 		path = cfg["path"]
 		self.path = current_path(path)
 		file = self.path + "测试用例.xlsx"
 		self.log.debug("测试用例文件路径: %s", file)
-		self.excel = xlrd.open_workbook(file, "rb")
+		try:
+			self.excel = xlrd.open_workbook(file, "rb")
+		except FileNotFoundError as f:
+			self.log.error(f)
 		self.case_title = cfg["cast_title"].strip(",").split(',')
 
 	def import_list(self):
 		"""
-
-		:return:
+		读取用例信息
+		:return:测试用例列表
 		"""
 		self.table = self.excel.sheet_by_name("接口功能")
 		self.log.debug("sheet name: %s", self.table.name)
 		self.rows = self.table.nrows
 		self.cols = self.table.ncols
-		self.log.debug("%s 有 %d 行, %d 列" % (self.table.name, self.table.nrows, self.table.ncols))
-		# sleep(1)
-
+		self.log.debug(
+			"%s 有 %d 行, %d 列"
+			% (self.table.name, self.table.nrows, self.table.ncols))
+		"""
+		[{"casetitle":{},"case":{}},
+		{"casetitle":{},	"case":{}}]
+		"""
 		suits = []
 		cases = []
 		suit = {}

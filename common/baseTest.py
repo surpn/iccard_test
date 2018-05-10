@@ -1,6 +1,5 @@
 import unittest
 
-import requests
 
 from common.httpConfig import Http
 from common.log import Log
@@ -13,6 +12,7 @@ class BaseTest(unittest.TestCase):
 	"""
 	def setUp(self):
 		self.log = Log().log()
+		# print(self.log)
 		self.log.info('-'*25 + u"test setUp" + '-'*25)
 		cfg = Config().url()
 		self.test_url = cfg["test"]
@@ -21,3 +21,7 @@ class BaseTest(unittest.TestCase):
 	def tearDown(self):
 		self.s.close()
 		self.log.info('-'*25 + u"test tearDown" + '-'*25)
+
+
+if __name__ == "__main__":
+	unittest.mian()

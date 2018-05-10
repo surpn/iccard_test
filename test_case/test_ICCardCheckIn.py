@@ -2,6 +2,7 @@
 import unittest
 
 from common.baseTest import BaseTest
+from common.annotation import try_except
 
 
 class TestICCardCheckIn(BaseTest):
@@ -11,7 +12,7 @@ class TestICCardCheckIn(BaseTest):
 		super().setUp()
 		self.s.post("/InitSystem")
 		self.method = "/ICCardCheckIn"
-		self.log.info(self.method)
+		self.log.info("url : " + self.test_url + self.method)
 
 	def test_ICCardCheckIn01(self):
 		"""输入{"cardNo":1001}"""
@@ -49,20 +50,22 @@ class TestICCardCheckIn(BaseTest):
 		self.log.info(r.text)
 		self.assertEqual(u'{"expectResult":"1","expectSysMessage":"卡号不存在！"}', r.text, "123")
 
+	@try_except
 	def test_ICCardCheckIn05(self):
 		"""输入{"cardNo":""}"""
 		json = {
 			"cardNo": ""
 		}
 		r = self.s.post(self.method, json=json)
-		self.log.info(r.text)
+
+		# self.log.info(r.text)
 		self.assertEqual(u'{"expectResult":"1","expectSysMessage":"卡号不存在！"}', r.text, "123")
 
 
 if __name__ == "__main__":
 	unittest.main()
-	# suite = unittest.TestSuite()
-	# suite.addTest(TestICCardCheckIn('test_ICCardCheckIn01'))
-	# # 执行测试
-	# runner = unittest.TextTestRunner()
-	# runner.run(suite)
+# suite = unittest.TestSuite()
+# suite.addTest(TestICCardCheckIn('test_ICCardCheckIn01'))
+# # 执行测试
+# runner = unittest.TextTestRunner()
+# runner.run(suite)
