@@ -41,6 +41,7 @@ class TestICCardCheckIn(BaseTest):
 		self.log.info(r.text)
 		self.assertEqual(u'{"expectResult":"1","expectSysMessage":"卡号不存在！"}', r.text, "123")
 
+	@try_except
 	def test_ICCardCheckIn04(self):
 		"""输入{"cardNo":""}"""
 		json = {
