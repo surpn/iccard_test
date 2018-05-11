@@ -7,7 +7,7 @@ import requests
 class BeautifulHttp(object):
 	"""返回页面元素提取器"""
 	def __init__(self, response):
-		pprint(response.text.encode(encoding='utf-8'))
+		pprint(response.text.dcode(encoding='utf-8'))
 
 
 
