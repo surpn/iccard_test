@@ -10,13 +10,16 @@ from common.utils import current_path
 
 @ddt
 class TestDDT(BaseTest):
+
 	def setUp(self):
 		super().setUp()
 		self.resource = "/ICCardCheckIn"
 		self.method = "post"
 		self.s.set(url=self.test_url, resource=self.resource, method=self.method)
+		global file
+		print(1)
+	file = r"F:\mycode\iccard_test\test_case_data\data.yml"
 
-		self.a={"a":r'{"expectResult":"0","expectSysMessage":"插卡成功！"}'}
 
 
 	data1 = [{"cardNo": 1001}, u'{"expectResult":"0","expectSysMessage":"插卡成功！"}']
@@ -29,9 +32,12 @@ class TestDDT(BaseTest):
 		self.log.info(r.text)
 		self.assertEqual(result, r.text, "123")
 
-	@file_data(r"F:\mycode\iccard_test\test_case_data\data.yml")
-	def test_DdtDataFile(self,start,end):
-		print(start)
+	@file_data(file)
+	def test_DdtDataFile(self,data, result):
+		print(file)
+		r = self.s.request(json=data)
+		self.log.info(r.text)
+		self.assertEqual(result, r.text, "123")
 
 
 if __name__ == "__main__":
