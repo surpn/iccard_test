@@ -74,4 +74,4 @@ if __name__ == "__main__":
 	print(cf)
 	test_url = cf["test"]
 	s = HttpClient(test_url, "/InitSystem", "post")
-	print(s.request().status_code)
+	print(s.request().text)

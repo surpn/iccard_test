@@ -2,6 +2,7 @@
 from pprint import pprint
 
 import xlrd
+import xlsxwriter
 
 from common.log import Log
 from common.readConfig import Config
@@ -115,7 +116,32 @@ class Case(object):
 
 if __name__ == "__main__":
 	suits = Case().import_list()
-	# for suit in suits:
-	# 	pprint("-"*80)
-	# 	pprint(suit)
-	pprint(suits)
+	x = 0
+	y = 0
+	title = ["用例编号","步骤名称","输入","预期输出","实际输出","是否通过","备注"]
+
+	xlsx = xlsxwriter.Workbook(current_path("test_case_data") + "case.xlsx")
+	sheet = xlsx.add_worksheet("case")
+	while y<len(title):
+		sheet.write(0, y, title[y])
+		y += 1
+
+
+	for suit in suits:
+		# pprint(suit["casetitle"])
+
+
+		for case in suit["cases"]:
+			x += 1
+			sheet.write(x, 0, case["用例编号"])
+			sheet.write(x, 1, case["步骤名称"])
+			sheet.write(x, 2, case["输入"])
+			sheet.write(x, 3, case["预期输出"])
+			sheet.write(x, 4, case["实际输出"])
+			sheet.write(x, 5, case["是否通过"])
+			sheet.write(x, 6, case["备注"])
+		x += 1
+			# pprint()
+
+
+	xlsx.close()

@@ -1,5 +1,6 @@
 # _*_coding:utf-8_*_
 from pprint import pprint
+from bs4 import BeautifulSoup
 
 import requests
 
@@ -7,7 +8,11 @@ import requests
 class BeautifulHttp(object):
 	"""返回页面元素提取器"""
 	def __init__(self, response):
-		pprint(response.text.encode(encoding='utf-8'))
+		response.encoding='utf-8'
+		html = response.text
+		soup=BeautifulSoup(html, 'html.parser')
+		print(soup)
+
 
 
 

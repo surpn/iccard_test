@@ -60,26 +60,6 @@ def newest_file(loc):
 		return loc + file
 
 
-def random_chinese_characters(i=1):
-	"""随机中文汉字"""
-	s = ""
-	if i < 11:
-		s = xeger.xeger(u"[\\u4e00-\\u9fa5]{1}")
-
-	else:
-		j = i // 10
-		k = i % 10
-
-		while j > 0:
-			a = xeger.xeger(u"[\\u4e00-\\u9fa5]{10}")
-			s = s + a
-			j -= 1
-			if j == 0:
-				a = xeger.xeger(u"[\\u4e00-\\u9fa5]{}".format("{" + str(k) + "}"))
-				s = s + a
-	return s
-
-
 if __name__ == "__main__":
 	# start = time.clock()
 	#
