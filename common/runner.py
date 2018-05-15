@@ -18,7 +18,7 @@ class TestRunner:
 		self.title = title
 		self.description = description
 		# 定义报告存放的路径
-		self.path = current_path(r"\result\report")
+		self.path = current_path(r"\result\report", mkdir=True)
 
 	def run(self):
 		with open(self.path + timestamp() + '.html', 'wb') as fp:
