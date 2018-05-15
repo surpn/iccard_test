@@ -57,7 +57,7 @@ def newest_file(loc):
 	else:
 		files.sort(key=lambda fn: os.path.getmtime(path + fn))
 		file = files[-1]
-		return loc + file
+		return path + file
 
 
 if __name__ == "__main__":

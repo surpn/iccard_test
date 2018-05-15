@@ -12,9 +12,9 @@ from common.utils import current_path
 from common.log import Log
 
 
-def sendemail(subject="", context="", image=None, mail_file=None):
+def sendemail(subject="subject", context="context", image=None, mail_file=None):
 	"""
-	发送邮件
+	自动发送邮件
 	:param subject:邮件主题
 	:param context: 邮件正文
 	:param image: 邮件图片
@@ -56,10 +56,11 @@ def sendemail(subject="", context="", image=None, mail_file=None):
 
 	# 附件
 	if mail_file is not None and os.path.exists(mail_file):
-		msg_file = MIMEText(open(mail_file, 'rb').read(), 'base64', 'utf-8')
-		msg_file['Content-Type'] = 'application/octet-stream'
-		msg_file['Content-Disposition'] = 'attachment; filename=test_report.html'
-		msg.attach(msg_file)
+		with open(mail_file, 'rb') as f:
+			msg_file = MIMEText(f.read(), 'base64', 'utf-8')
+			msg_file['Content-Type'] = 'application/octet-stream'
+			msg_file['Content-Disposition'] = 'attachment; filename=test_report.html'
+			msg.attach(msg_file)
 
 	try:
 		# 发送
@@ -79,4 +80,4 @@ def sendemail(subject="", context="", image=None, mail_file=None):
 
 if __name__ == "__main__":
 	f = current_path() + '/test_case_data/test.png'
-	sendemail("邮件主题", "邮件正文")
+	sendemail("邮件主题", "邮件正文", image=f)

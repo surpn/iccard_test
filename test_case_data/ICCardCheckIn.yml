@@ -1,0 +1,15 @@
+1:
+    data: {"cardNo": 1001}
+    result: '{"expectResult":"0","expectSysMessage":"插卡成功！"}'
+2:
+    data: {"cardNo": 1000}
+    result: '{"expectResult":"1","expectSysMessage":"卡号不存在！"}'
+3:
+    data: {"cardNo":"100*"}
+    result: '{"expectResult":"1","expectSysMessage":"卡号不存在！"}'
+4:
+    data: {"cardNo":""}
+    result: '{"expectResult":"1","expectSysMessage":"卡号不存在！"}'
+5:
+    data: {"cardNo":"1001","v":1}
+    result: '{"expectResult":"1","expectSysMessage":"卡号不存在！"}'

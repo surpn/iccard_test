@@ -1,0 +1,27 @@
+test_SelectOperation1:
+    data: {"operationType":"1"}
+    result: '{"expectResult":"0","expectSysMessage":"选择成功！"}'
+test_SelectOperation2:
+    data: {"operationType":"2"}
+    result: '{"expectResult":"0","expectSysMessage":"选择成功！"}'
+test_SelectOperation3:
+    data: {"operationType":"3"}
+    result: '{"expectResult":"0","expectSysMessage":"选择成功！"}'
+test_SelectOperation4:
+    data: {"operationType":"4"}
+    result: '{"expectResult":"0","expectSysMessage":"选择成功！"}'
+test_SelectOperation5:
+    data: {"operationType":"5"}
+    result: '{"expectResult":"0","expectSysMessage":"选择成功！"}'
+test_SelectOperation6:
+    data: {"operationType":"6"}
+    result: '{"expectResult":"0","expectSysMessage":"选择成功！"}'
+test_SelectOperation7:
+    data: {"operationType":"7"}
+    result: '{"expectResult":"0","expectSysMessage":"选择成功！"}'
+test_SelectOperation8:
+    data: {"operationType":""}
+    result: '{"expectResult":"1","expectSysMessage":"操作类型为空！"}'
+test_SelectOperation9:
+    data: {"operationType":"1","v":"1"}
+    result: '{"expectResult":"0","expectSysMessage":"选择成功！"}'

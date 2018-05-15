@@ -1,4 +1,4 @@
-{"data":
-  [{"cardNo": 1001},
-   "a"]
-}
+[
+    [{"cardNo": 1001},{"expectResult":"0","expectSysMessage":"插卡成功！"}],
+    ["Goodbye"]
+]

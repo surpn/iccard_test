@@ -1,7 +1,6 @@
-positive_integer_range:
+1:
     data: {"cardNo": 1001}
     result: '{"expectResult":"0","expectSysMessage":"插卡成功！"}'
-positive_integer_rangeq:
+2:
     data: {"cardNo": 1000}
     result: '{"expectResult":"1","expectSysMessage":"卡号不存在！"}'
-

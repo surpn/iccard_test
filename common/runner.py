@@ -12,7 +12,8 @@ class TestRunner:
 
 		if test_dir == "":
 			self.test_dir = current_path(r"test_case")
-
+		else:
+			self.test_dir = current_path(test_dir)
 		self.discover = unittest.defaultTestLoader.discover(self.test_dir, pattern='test*.py')
 		self.title = title
 		self.description = description
@@ -27,4 +28,5 @@ class TestRunner:
 
 
 if __name__ == "__main__":
-	runner = TestRunner(title="title", description="description")
+	run = TestRunner(test_dir="test_case/test_interface", title="iccard_test", description="test")
+	run.run()
