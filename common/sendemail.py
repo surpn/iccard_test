@@ -28,9 +28,14 @@ def sendemail(subject="subject", context="context", image=None, mail_file=None):
 	password = __config["password"]
 	sender = __config["sender"]
 	receiver = __config["receiver"]
+	receiver_list=[]
+	temp =  receiver.split(",")
+	for t in temp:
+		if len(t.strip())>0:
+			receiver_list.append(t.strip())
 	__log = Log().log()
 	msg = MIMEMultipart('related')
-	# 主题.收发人
+	# 主题.收发人信息
 	msg['Subject'] = Header(subject, 'utf-8')
 	msg['From'] = sender
 	msg['To'] = receiver
@@ -64,13 +69,15 @@ def sendemail(subject="subject", context="context", image=None, mail_file=None):
 
 	try:
 		# 发送
-		smtp = SMTP()
+		__log.info("sending email...")
+		smtp = smtplib.SMTP_SSL(smtp_server, 465)
 		# 1.连接邮件服务器
-		smtp.connect(smtp_server)
+		# smtp.connect()
 		# 2.登录
 		smtp.login(user, password)
 		# 3.发送邮件
-		smtp.sendmail(sender, receiver, msg.as_string())
+		__log.debug(receiver_list)
+		smtp.sendmail(sender, receiver_list, msg.as_string())
 		# 4.退出
 		smtp.quit()
 		__log.info("send email sessful")
@@ -80,4 +87,4 @@ def sendemail(subject="subject", context="context", image=None, mail_file=None):
 
 if __name__ == "__main__":
 	f = current_path() + '/test_case_data/test.png'
-	sendemail("邮件主题", "邮件正文", image=f)
+	sendemail("邮件主题", "邮件正文")
